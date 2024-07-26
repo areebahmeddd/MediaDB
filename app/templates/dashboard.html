@@ -1,0 +1,39 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+<div class="dashboard-container text-center">
+    <h1>Admin Dashboard</h1>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Total Users Card -->
+        <div class="col-md-6">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Total Users</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_users }}</h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Posts Card -->
+        <div class="col-md-6">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Total Posts</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_posts }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Information and Logout Button -->
+    <div class="row mt-4">
+        <div class="col-md-12 text-center">
+            <p>Active User: <strong>{{ session['username'] }}</strong></p>
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-danger btn-block">Logout</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
