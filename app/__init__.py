@@ -13,7 +13,7 @@ from config import Config
 db = SQLAlchemy()
 
 def create_app():
-    from . import routes, admin_views, models
+    from . import routes, admin_views, models # Importing here to avoid circular imports
     app = Flask(__name__)
     app.config.from_object(Config)
     app.register_blueprint(routes.auth_bp)
@@ -21,7 +21,7 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-        db.create_all()
+        db.create_all() # Create database schema
 
         admin = Admin(name='MediaDB', index_view=admin_views.MyAdminIndexView())
         admin.init_app(app)
