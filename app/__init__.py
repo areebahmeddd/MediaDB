@@ -25,6 +25,7 @@ def create_app():
 
         admin = Admin(name='MediaDB', index_view=admin_views.MyAdminIndexView())
         admin.init_app(app)
+
         admin.add_view(admin_views.UserView(models.User, db.session))
         admin.add_view(admin_views.PostView(models.Post, db.session))
         admin.add_view(admin_views.CommentView(models.Comment, db.session))

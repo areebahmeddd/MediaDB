@@ -19,7 +19,7 @@ class MyAdminIndexView(AdminIndexView):
     def index(self):
         if not session.get('logged_in'):
             flash('You are not logged in!', 'error')
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('auth.signin'))
 
         total_users, total_posts = db.session.query(User).count(), db.session.query(Post).count()
         return self.render('dashboard.html', total_users=total_users, total_posts=total_posts)
@@ -33,7 +33,7 @@ class AuthModelView(ModelView):
     # Function to handle inaccessible views
     def inaccessible_callback(self, name, **kwargs):
         flash('You are not logged in!', 'error')
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.signin'))
 
 class UserView(AuthModelView):
     form_columns = ["name"]

@@ -1,8 +1,8 @@
 '''
 Defines the application routes and their associated handlers for:
-- Login: Handles user authentication and session management.
+- Signin: Handles user authentication and session management.
 - Signup: Manages the registration of new admin users, including validation and password hashing.
-- Logout: Handles user logout by clearing the session and redirecting to the login page.
+- Logout: Handles user logout by clearing the session and redirecting to the signin page.
 '''
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
@@ -12,12 +12,17 @@ from .models import AdminUser, db
 
 auth_bp = Blueprint('auth', __name__)
 
-@auth_bp.route('/', methods=['GET', 'POST'])
-def login():
+@auth_bp.route('/')
+def index():
+    return redirect(url_for('auth.signin'))
+
+@auth_bp.route('/signin', methods=['GET', 'POST'])
+def signin():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         admin_user = AdminUser.query.filter_by(username=username).first()
+
         if admin_user and check_password_hash(admin_user.password, password):
             session['logged_in'] = True
             session['username'] = admin_user.username
@@ -32,6 +37,7 @@ def signup():
         username = request.form['username']
         password = request.form['password']
         existing_user = AdminUser.query.filter_by(username=username).first()
+
         if existing_user:
             flash('Username already exists! Please choose a different one.', 'error')
         else:
@@ -39,17 +45,19 @@ def signup():
             admin_user = AdminUser(username=username, password=hashed_password)
             db.session.add(admin_user)
             db.session.commit()
+
             flash('Account created successfully! Please log in.', 'success')
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('auth.signin'))
     return render_template('sign_up.html')
 
 @auth_bp.route('/logout')
 def logout():
     if session.get('logged_in'):
-        session.pop('logged_in')
-        session.pop('username')
+        session.pop('logged_in', None)
+        session.pop('username', None)
+
         flash('You have been logged out!', 'success')
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.signin'))
     else:
         flash('You are not logged in!', 'error')
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.signin'))

@@ -14,9 +14,13 @@ The Flask-based application efficiently manages users, posts, comments, likes, s
 - **Session Management**: Session-based authentication to safeguard access to administrative functions.
 - **Database Initialization**: Automatic setup of the [SQLite database](https://github.com/areebahmeddd/MediaDB/blob/main/config.py) schema and creation of an initial admin user for immediate deployment and use.
 
+### Tech Stack
+
+-
+
 Developed for the subject: Database Management Systems (22CB43)
 
-## Project Preview
+## Project Overview
 
 <p align="center">
   <img src="app/assets/sign_in.png" alt="Sign In Page">
